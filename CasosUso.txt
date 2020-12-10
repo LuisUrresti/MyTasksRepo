@@ -1,0 +1,12 @@
+La App debe permitir:
+
+1. Ver la lista de tareas pendienes y su descripción
+
+2. Ver la lista de tareas completadas
+
+3. Permitir crear una nueva tarea y escribir la descripción de un máximo de un 256 caracteres avisando que el número de caracteres llega 
+al limite
+
+4. Permitir eliminar tareas
+
+5. Permitir modificar el estado de la tarea
