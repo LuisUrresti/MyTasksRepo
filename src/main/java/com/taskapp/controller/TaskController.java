@@ -8,15 +8,16 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
-import com.taskapp.TaskService;
 import com.taskapp.model.Task;
+import com.taskapp.service.TaskService;
 
 
 @RestController
@@ -27,39 +28,44 @@ public class TaskController {
 	@Autowired
 	TaskService service;
 	
-	// Save student entity in the h2 database.
+	// Se guarda la tarea en la base de datos
     // @PostMapping annotation handles the http post request matched with the given uri.
     // @RequestBody annotation binds the http request body to the domain object.
     // @Valid annotation validates a model after binding the user input to it.
-    @PostMapping(value = "/task/save")
-    public int save(final @RequestBody @Valid Task task) {
+    @RequestMapping(value = "/tasks", method = RequestMethod.POST)
+    public ResponseEntity<Task> save(final @RequestBody @Valid Task task) {
         log.info("Guardando tarea en la base de datos");
-        service.save(task);
-        return task.getId();
+        Task taskSaved = service.save(task);
+		return new ResponseEntity<Task>(taskSaved, HttpStatus.CREATED);
     }  
     
-    @PostMapping(value = "/task/update{id}")
-    public int update(final @RequestBody @Valid Task task, @PathVariable String id ) {
+    // Se actualiza una tarea que ya este en la base de datos
+    @RequestMapping(value = "/tasks/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Task> update(final @RequestBody @Valid Task task, @PathVariable String id ) {
     	log.info("Actualizando una tarea");
     	int taskId = Integer.parseInt(id);
-    	service.update(task, taskId);
-    	return task.getId();
+    	Task taskUpdated = service.update(task, taskId);
+    	return new ResponseEntity<Task>(taskUpdated, HttpStatus.OK);
 	}
     
-    @GetMapping(value = "task/getall")
+    // Se muestran todas las tareas de la base de datos
+    @RequestMapping(value = "tasks", method = RequestMethod.GET)
     public List<Task> getAll(){
     	log.info("Mostrando todas las tareas");
-    	return service.getAll();
+    	List<Task> tasks = service.getAll();
+    	return tasks;
     }
     
-    @DeleteMapping(value = "task/delete{id}")
+    // Se elimina una tarea que este en la base de datos
+    @RequestMapping(value = "tasks/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable String id) {
     	log.info("Eliminando tarea");
     	int taskId = Integer.parseInt(id);
     	service.deleteById(taskId);
     }
     
-    @GetMapping(value = "task/Estado_{state}")
+    // Se mira cuantas tareas estan en el estado {state} en la base de datos y se muetran
+    @RequestMapping(value = "tasks/{state}", method = RequestMethod.GET)
     public List<Task> findByState(@PathVariable String state) {
     	log.info("Filtrando por estado");
     	return service.findByState(state);

@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 // Entity indica a JPA que esta clase es una entidad
 @Entity
 public class Task {
@@ -14,23 +16,38 @@ public class Task {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;	
+	
 	// Se indica la columna "Descripción" que indica la descripción de la tarea y tiene 140 caracteres como máximo
+	@JsonProperty("task-description")
 	@Column(name = "Descripcion", length = 140, nullable = false, unique = false)
 	private String taskDescription;
+	
 	// Se indica la columna "Estado" que indica el estado de la tarea
-	@Column(name = "Estado", length = 140, nullable = false, unique = false)
+	@JsonProperty("task-state")
+	@Column(name = "Estado", length = 50, nullable = false, unique = false)
 	private String taskState;
 	
+	// Constructor vacio
 	public Task() {
 		
 	}
-	
+	// Constructor sin ID
 	public Task(String taskDescription, String taskState) {
 		
 		this.taskDescription = taskDescription;
 		this.taskState = taskState;
 	}
-
+	
+	// Constructor con ID
+	public Task(int id,String taskDescription, String taskState) {
+		
+		this.id = id;
+		this.taskDescription = taskDescription;
+		this.taskState = taskState;
+	}
+	
+	
+	/* Getters and Setters */
 	public int getId() {
 		return id;
 	}
@@ -54,7 +71,9 @@ public class Task {
 	public void setTaskState(String taskState) {
 		this.taskState = taskState;
 	}
-
+	
+	
+	/* HasCode and Equals */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
