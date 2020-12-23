@@ -22,7 +22,7 @@ import com.taskapp.service.TaskService;
 
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://gray-ground-0a6473a10.azurestaticapps.net")
 public class TaskController {
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
