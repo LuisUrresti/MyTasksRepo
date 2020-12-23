@@ -18,12 +18,12 @@ public class Task {
 	private int id;	
 	
 	// Se indica la columna "Descripción" que indica la descripción de la tarea y tiene 140 caracteres como máximo
-	@JsonProperty("task-description")
+	//@JsonProperty("task-description")
 	@Column(name = "Descripcion", length = 140, nullable = false, unique = false)
 	private String taskDescription;
 	
 	// Se indica la columna "Estado" que indica el estado de la tarea
-	@JsonProperty("task-state")
+	//@JsonProperty("task-state")
 	@Column(name = "Estado", length = 50, nullable = false, unique = false)
 	private String taskState;
 	
