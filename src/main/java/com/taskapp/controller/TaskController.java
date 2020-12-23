@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.taskapp.service.TaskService;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 public class TaskController {
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -51,7 +53,7 @@ public class TaskController {
     // Se muestran todas las tareas de la base de datos
     @RequestMapping(value = "tasks", method = RequestMethod.GET)
     public List<Task> getAll(){
-    	log.info("Mostrando todas las tareas");
+    	//log.info("Mostrando todas las tareas");
     	List<Task> tasks = service.getAll();
     	return tasks;
     }
